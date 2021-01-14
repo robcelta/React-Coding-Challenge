@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+import React, {useEffect, useState, useContext } from 'react'
 import './App.css';
 
+import Header from './Components/Header'
+import Main from './Components/Main'
+import Footer from './Components/Footer'
+
 function App() {
+
+  const [popular, setPopular] = useState([])
+  const [search, setSearch] = useState([])
+
+  useEffect(() => {
+    fetch('https://api.themoviedb.org/3/movie/popular?api_key=67349d4aecf040b639d88fa295115406')
+      .then(response => response.json())
+      .then(data => setPopular(data.results))
+    fetch('https://api.themoviedb.org/3/discover/movie?api_key=67349d4aecf040b639d88fa295115406&sort_by=release_date.asc')
+      .then(response => response.json())
+      .then(data => setSearch(data.results))
+    }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Main popular={popular} search={search}/>
+      <Footer />
     </div>
   );
 }
