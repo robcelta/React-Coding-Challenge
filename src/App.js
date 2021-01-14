@@ -1,6 +1,5 @@
-import React, {useEffect, useState, useContext } from 'react'
+import React, {useEffect, useState } from 'react'
 import './App.css';
-import { makeStyles } from '@material-ui/core/styles';
 
 import Header from './Components/Header'
 import Main from './Components/Main'

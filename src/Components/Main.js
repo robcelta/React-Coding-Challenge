@@ -73,7 +73,7 @@ export default function Main({popular, search}) {
     const [displayedFirst, setDisplayedFirst] = useState([])
     const [isFilterActive, setIsFilterActive] = useState(false)
     const [filter, setActiveFilter] = useState(0)
-    const [filterAmount, setFilterAmount] = useState([2,4,6,8,10])
+    const filterAmount = [2,4,6,8,10]
 
     const handleInputChange = (event, value) => {
         const movie = value
@@ -94,7 +94,7 @@ export default function Main({popular, search}) {
     useEffect(() => {
         setDisplayedFirst(popular)
         setDisplayedSearch(search)
-    })
+    }, [popular, search])
 
     return (
         <React.Fragment>
@@ -136,6 +136,7 @@ export default function Main({popular, search}) {
                                     </Grid>
                                 )
                             }
+                            return console.log('')
                         })
                     :
                         displayedFirst.map(each => {
@@ -146,6 +147,7 @@ export default function Main({popular, search}) {
                                     </Grid>
                                 )
                             }
+                            return console.log('')
                         })
                 }
 

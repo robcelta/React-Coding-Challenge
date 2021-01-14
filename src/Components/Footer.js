@@ -25,7 +25,7 @@ export default function Footer() {
     <div className={classes.root}>
       <AppBar position="static" style={{backgroundColor: 'salmon'}}>
         <Toolbar>
-          <Typography variant="p" className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
             Twitter: @robmcelta
           </Typography>
         </Toolbar>
