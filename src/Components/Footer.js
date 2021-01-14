@@ -3,18 +3,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginTop: '20px'
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
+    textAlign: 'center'
   },
 }));
 
@@ -23,12 +23,10 @@ export default function Footer() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" style={{backgroundColor: 'salmon'}}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            News
+          <Typography variant="p" className={classes.title}>
+            Twitter: @robmcelta
           </Typography>
         </Toolbar>
       </AppBar>

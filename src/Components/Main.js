@@ -4,10 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { Favorite, FavoriteBorder } from '@material-ui/icons';
+import { Favorite } from '@material-ui/icons';
+
+import Pulp from '../img/pulp.jpg'
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -34,11 +35,13 @@ const useStyles = makeStyles((theme) => ({
     },
     searchContainer: {
         display: 'flex',
-        height: '40vh',
+        height: '55vh',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        marginBottom: '10vh'
+        marginBottom: '10vh',
+        backgroundImage: `url(${Pulp})`,
+        backgroundSize: 'cover',
     },
     form: {
         display: 'flex',
@@ -52,6 +55,13 @@ const useStyles = makeStyles((theme) => ({
     },
     text: {
         marginRight: '10px'
+    },
+    pictures: {
+        backgroundColor: 'white',
+    }, 
+    sss: {
+        background: 'white',
+        borderRadius: '4px'
     }
   }));
 
@@ -88,18 +98,19 @@ export default function Main({popular, search}) {
 
     return (
         <React.Fragment>
+
             <CssBaseline />
 
             <Container className={classes.searchContainer}>
-                <Typography variant="h1" className={classes.title}>Movies</Typography>
+                <Typography variant="h3" className={classes.title}>Your next favorite movie, <b>here!</b></Typography>
                 <form className={classes.form}>
                 <Autocomplete
                     id="combo-box-demo"
                     options={displayedSearch}
                     getOptionLabel={(option) => option.title}
                     onChange={handleInputChange}
-                    style={{ width: 400, marginRight: 50 }}
-                    renderInput={(params) => <TextField {...params} label="Searching for a movie?" variant="outlined" />}
+                    style={{ width: 300, marginRight: 50 }}
+                    renderInput={(params) => <TextField {...params} placeholder="Searching for a movie?" variant="outlined" className={classes.sss}/>}
                 />
                 <div className={classes.starContainer}>
                 <Typography variant="h6" className={classes.text}>Filter by votes:</Typography>
@@ -112,15 +123,15 @@ export default function Main({popular, search}) {
                 </form>
             </Container>
 
-            <Container>
+            <Container className={classes.pictures}>
 
-                <Grid container spacing={3}>
+                <Grid container spacing={3} justify="center" alignItems="center">
 
                     {isFilterActive ? 
                         displayedFirst.map(each => {
                             if(each.vote_average >= filter){
                                 return (
-                                    <Grid item xs key={each.id}>
+                                    <Grid item xs={4} key={each.id}>
                                         <img className={classes.img} src={`https://image.tmdb.org/t/p/w500${each.poster_path}?api_key=67349d4aecf040b639d88fa295115406`} alt={each.title}/>
                                     </Grid>
                                 )
@@ -130,7 +141,7 @@ export default function Main({popular, search}) {
                         displayedFirst.map(each => {
                             if(each.popularity >= 1448.531) {
                                 return(
-                                    <Grid item xs key={each.id}>
+                                    <Grid item xs={4} key={each.id}>
                                         <img className={classes.img} src={`https://image.tmdb.org/t/p/w500${each.poster_path}?api_key=67349d4aecf040b639d88fa295115406`} alt={each.title}/>
                                     </Grid>
                                 )
