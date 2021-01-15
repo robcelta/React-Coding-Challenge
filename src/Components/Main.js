@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Rating from '@material-ui/lab/Rating';
 
 import Pulp from '../img/pulp.jpg'
@@ -59,27 +58,27 @@ const useStyles = makeStyles((theme) => ({
     pictures: {
         backgroundColor: 'white',
     }, 
-    sss: {
+    searchInput: {
         background: 'white',
-        borderRadius: '4px'
+        borderRadius: '4px',
+        marginRight: '30px',
+        width: '300px'
     }
   }));
 
-export default function Main({popular, search}) {
+export default function Main({popular}) {
 
     const classes = useStyles();
 
-    const [displayedSearch, setDisplayedSearch] = useState([])
     const [displayedFirst, setDisplayedFirst] = useState([])
     const [isFilterActive, setIsFilterActive] = useState(false)
     const [filter, setActiveFilter] = useState(0)
     const [value, setValue] = useState(0)
+    const [searchValue, setSearchValue] = useState([])
 
-    const handleInputChange = (event, value) => {
-        const movie = value
-        if(movie) {
-            alert(`${movie.title}: ${movie.overview}`)
-        }
+    const handleInputChange = (e) => {
+        const value = e.target.value
+        setSearchValue(value)
     }
 
     const setFilter = (id) => {
@@ -91,10 +90,18 @@ export default function Main({popular, search}) {
         }
     }
 
+    const handleSearch = (e) => {
+        e.preventDefault()
+        fetch(`https://api.themoviedb.org/3/search/movie?api_key=67349d4aecf040b639d88fa295115406&language=en-US&page=1&include_adult=false&query=${searchValue}`)
+            .then(response => response.json())
+            .then(data => setDisplayedFirst(data.results))
+        //searchValue.map(each => alert(`${each.title}`))
+    }
+
     useEffect(() => {
         setDisplayedFirst(popular)
-        setDisplayedSearch(search)
-    }, [popular, search])
+        console.log(popular)
+    }, [popular])
 
     return (
         <React.Fragment>
@@ -103,15 +110,8 @@ export default function Main({popular, search}) {
 
             <Container className={classes.searchContainer}>
                 <Typography variant="h3" className={classes.title}>Your next favorite movie, <b>here!</b></Typography>
-                <form className={classes.form}>
-                <Autocomplete
-                    id="combo-box-demo"
-                    options={displayedSearch}
-                    getOptionLabel={(option) => option.title}
-                    onChange={handleInputChange}
-                    style={{ width: 300, marginRight: 50 }}
-                    renderInput={(params) => <TextField {...params} placeholder="Searching for a movie?" variant="outlined" className={classes.sss}/>}
-                />
+                <form className={classes.form} onSubmit={handleSearch}>
+                <TextField placeholder="Searching for a movie?" variant="outlined" className={classes.searchInput} onChange={handleInputChange} />
                 <div className={classes.starContainer}>
                 <Typography variant="h6" className={classes.text}>Filter by votes:</Typography>
 
@@ -145,7 +145,7 @@ export default function Main({popular, search}) {
                         })
                     :
                         displayedFirst.map(each => {
-                            if(each.popularity >= 1448.531) {
+                            if(each.popularity >= 1448.531 || searchValue !== '') {
                                 return(
                                     <Grid item xs={4} key={each.id}>
                                         <img className={classes.img} src={`https://image.tmdb.org/t/p/w500${each.poster_path}?api_key=67349d4aecf040b639d88fa295115406`} alt={each.title}/>
