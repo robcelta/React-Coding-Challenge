@@ -79,6 +79,9 @@ export default function Main({popular}) {
     const handleInputChange = (e) => {
         const value = e.target.value
         setSearchValue(value)
+        if(value === ''){
+            setDisplayedFirst(popular)
+        }
     }
 
     const setFilter = (id) => {
@@ -95,12 +98,10 @@ export default function Main({popular}) {
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=67349d4aecf040b639d88fa295115406&language=en-US&page=1&include_adult=false&query=${searchValue}`)
             .then(response => response.json())
             .then(data => setDisplayedFirst(data.results))
-        //searchValue.map(each => alert(`${each.title}`))
     }
 
     useEffect(() => {
         setDisplayedFirst(popular)
-        console.log(popular)
     }, [popular])
 
     return (
