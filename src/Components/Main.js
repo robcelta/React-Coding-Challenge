@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { Favorite } from '@material-ui/icons';
+import Rating from '@material-ui/lab/Rating';
 
 import Pulp from '../img/pulp.jpg'
 
@@ -73,7 +73,7 @@ export default function Main({popular, search}) {
     const [displayedFirst, setDisplayedFirst] = useState([])
     const [isFilterActive, setIsFilterActive] = useState(false)
     const [filter, setActiveFilter] = useState(0)
-    const filterAmount = [2,4,6,8,10]
+    const [value, setValue] = useState(0)
 
     const handleInputChange = (event, value) => {
         const movie = value
@@ -114,11 +114,16 @@ export default function Main({popular, search}) {
                 />
                 <div className={classes.starContainer}>
                 <Typography variant="h6" className={classes.text}>Filter by votes:</Typography>
-                {filterAmount.map((each) => {
-                    return (
-                        <Favorite className={classes.notActive} key={each} onClick={() => setFilter(each)}/>
-                    )
-                })}
+
+                <Rating
+                    name="simple-controlled"
+                    value={value}
+                    onChange={(event, newValue) => {
+                        setFilter(newValue*2)
+                        setValue(newValue);
+                    }}
+                />
+
                 </div>
                 </form>
             </Container>
